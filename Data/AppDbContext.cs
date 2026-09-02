@@ -7,7 +7,6 @@ namespace ProjetoCrud.Data
     {
         public AppDbContext(DbContextOptions options) : base(options){}
 
-
         public DbSet<MED_MEDICO_DADOS> MED_MEDICO_DADOS {get; set;}
 
         public DbSet<MED_PACIENTE> MED_PACIENTE {get; set;}
@@ -25,5 +24,6 @@ namespace ProjetoCrud.Data
         public DbSet<CONEVENIO_TAB_STATUS> CONEVENIO_TAB_STATUS {get; set;}
 
         public DbSet<MED_TAB_STATUS> MED_TAB_STATUS { get; set; }
+        public DbSet<LOGIN> LOGIN { get; set; }
     }
 }

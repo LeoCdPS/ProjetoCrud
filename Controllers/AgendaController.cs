@@ -45,7 +45,6 @@ namespace ProjetoCrud.Controllers
             {
                 return NotFound();
             }
-
             // Sobrescreve os campos da agenda existente com os valores recebidos.
             agendaExistente.ID_MED_CRM = agenda.ID_MED_CRM;
             agendaExistente.ID_MED_TAB_AGENDA_PERIODO = agenda.ID_MED_TAB_AGENDA_PERIODO;
