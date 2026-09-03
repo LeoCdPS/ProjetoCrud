@@ -28,8 +28,8 @@ namespace ProjetoCrud.Controllers
         [HttpGet]
         public async Task<IActionResult> GetLoginAsync()
         {
-            var usuarios = await _appDbContext.LOGIN.ToListAsync();
-            return Ok(usuarios);
+            var emails = await _appDbContext.LOGIN.Select(u => u.EMAIL).ToListAsync();
+            return Ok(emails);
         }
     } 
 }
