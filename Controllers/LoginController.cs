@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjetoCrud.Data;
 using ProjetoCrud.Models;
 
@@ -21,6 +22,13 @@ namespace ProjetoCrud.Controllers
             _appDbContext.Add(usuarios);
             await _appDbContext.SaveChangesAsync();
 
+            return Ok(usuarios);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLoginAsync()
+        {
+            var usuarios = await _appDbContext.LOGIN.ToListAsync();
             return Ok(usuarios);
         }
     } 
