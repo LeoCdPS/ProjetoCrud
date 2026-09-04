@@ -34,6 +34,32 @@ namespace ProjetoCrud.Controllers
             return Ok(usuarios);
         }
 
+        [HttpPost("autenticar")]
+        public async Task<IActionResult> AutenticarAsync([FromBody] LoginRequest login)
+        {
+            var usuario = await _appDbContext.LOGIN
+                .Where(u => u.EMAIL == login.login)
+                .FirstOrDefaultAsync();
+
+            if (usuario == null)
+            {
+                return Unauthorized(new { erro = "E-mail não cadastrado." });
+            }
+
+            if (usuario.SENHA != login.senha)
+            {
+                return Unauthorized(new { erro = "Senha incorreta." });
+            }
+
+            return Ok(new {
+                id = usuario.id_USER,
+                email = usuario.EMAIL,
+                cargo = usuario.CARGO
+            });
+        }
+
+
+
         [HttpGet]
         public async Task<IActionResult> GetLoginAsync()
         {
