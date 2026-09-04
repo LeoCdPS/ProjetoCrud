@@ -28,6 +28,9 @@ namespace ProjetoCrud.Controllers
                 return Conflict(new { erro = "Este e-mail já está cadastrado." });
             }
 
+            usuarios.SENHA = BCrypt.Net.BCrypt.HashPassword(usuarios.SENHA);
+
+
             _appDbContext.Add(usuarios);
             await _appDbContext.SaveChangesAsync();
 
@@ -46,7 +49,9 @@ namespace ProjetoCrud.Controllers
                 return Unauthorized(new { erro = "E-mail não cadastrado." });
             }
 
-            if (usuario.SENHA != login.senha)
+            bool senhaCerta = BCrypt.Net.BCrypt.Verify(login.senha, usuario.SENHA);
+
+            if (!senhaCerta)
             {
                 return Unauthorized(new { erro = "Senha incorreta." });
             }
