@@ -19,6 +19,15 @@ namespace ProjetoCrud.Controllers
         [HttpPost]
         public async Task<IActionResult> PostActionResultAsync(LOGIN usuarios)
         {
+            var existente = await _appDbContext.LOGIN
+                .Where(u => u.EMAIL == usuarios.EMAIL)
+                .FirstOrDefaultAsync();
+
+            if (existente != null)
+            {
+                return Conflict(new { erro = "Este e-mail já está cadastrado." });
+            }
+
             _appDbContext.Add(usuarios);
             await _appDbContext.SaveChangesAsync();
 
