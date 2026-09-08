@@ -3,6 +3,24 @@ using Microsoft.EntityFrameworkCore;
 using ProjetoCrud.Data;
 using ProjetoCrud.Models;
 
+
+/*
+/*
+!TELA DE CADASTRO
+* Neste Controller é feito o gerenciamento de login e autenticação de usuários.
+* No primeiro bloco (POST), é feita a comparação de emails: se o email já foi 
+* cadastrado, retorna uma mensagem de erro.
+* Caso o email não esteja cadastrado, o sistema insere no banco o cargo, o email 
+* e a senha — sendo que, antes de ser inserida, a senha passa por uma transformação 
+* usando a biblioteca BCrypt, que a converte em hash (não é mais salva em texto puro).
+
+!TELA DE LOGIN
+* No POST (Autenticar), é feita a verificação de login: primeiro confirma se o 
+* email existe no banco. Se existir, compara a senha digitada com o hash salvo, 
+* usando a função Verify() do BCrypt. Se o email não for encontrado ou a senha 
+* não bater com o hash, retorna erro de autenticação.
+*/ 
+
 namespace ProjetoCrud.Controllers
 {
     [ApiController]
@@ -48,7 +66,7 @@ namespace ProjetoCrud.Controllers
             {
                 return Unauthorized(new { erro = "E-mail não cadastrado." });
             }
-
+            
             bool senhaCerta = BCrypt.Net.BCrypt.Verify(login.senha, usuario.SENHA);
 
             if (!senhaCerta)
@@ -62,8 +80,6 @@ namespace ProjetoCrud.Controllers
                 cargo = usuario.CARGO
             });
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> GetLoginAsync()
