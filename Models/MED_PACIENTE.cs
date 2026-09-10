@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.AccessControl;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace ProjetoCrud.Models
@@ -21,5 +21,9 @@ namespace ProjetoCrud.Models
         public string PAC_CIDADE { get; set; }
         public string PAC_UF { get; set; }
         public int ID_PAC_TAB_CONVENIO { get; set; } //FOREIGN KEY
+        public int? ID_LOGIN { get; set; }
+
+        [ForeignKey("ID_LOGIN")]
+        public LOGIN Login { get; set; }
     }
 }
