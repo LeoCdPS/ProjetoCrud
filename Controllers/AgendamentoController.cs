@@ -56,6 +56,32 @@ namespace ProjetoCrud.Controllers
                     ).ToListAsync(); // Executa a consulta de forma assíncrona.
                 return Ok(agendamentos);
         }
+
+
+        [HttpGet("paciente/{idLogin}")]
+        public async Task<IActionResult> ConsultarAgendamentoPorPaciente(int idLogin)
+        {
+            var agendamentos = await (
+                from ag in _appDbContext.MED_AGENDAMENTO
+                join pac in _appDbContext.MED_PACIENTE on ag.ID_PAC_RG_CIN equals pac.ID_PAC_RG_CIN
+                join med in _appDbContext.MED_MEDICO_DADOS on ag.ID_MED_CRM equals med.ID_MED_CRM
+                join esp in _appDbContext.MED_TAB_ESPECIALIDADE on med.ID_MED_TAB_ESPECIALIDADE equals esp.ID_MED_TAB_ESPECIALIDADE
+                where pac.ID_LOGIN == idLogin
+                select new
+                {
+                    AgendamentoId = ag.ID_MED_AGENDAMENTO,
+                    Data = ag.MED_AGENDAMENTO_DATA,
+                    Horario = ag.MED_AGENDAMENTO_HORARIO,
+                    Paciente = pac.PAC_NOME_COMPLETO,
+                    Medico = med.MED_NOME_COMPLETO,
+                    Especialidade = esp.MED_TAB_ESPECIALIDADE_DESCRICAO,
+                }
+            ).ToListAsync();
+
+    return Ok(agendamentos);
+}
+
+
         // Endpoint PUT api/Agendamento/{id}: atualiza um agendamento existente.
         [HttpPut("{id}")]
         public async Task<IActionResult> AtualizarAgendamento(int id, MED_AGENDAMENTO agendamento)
