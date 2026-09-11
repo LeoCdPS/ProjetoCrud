@@ -21,6 +21,8 @@ namespace ProjetoCrud.Controllers
         [HttpPost]
         public async Task<IActionResult> AdicionarPaciente(MED_PACIENTE paciente)
         {
+            Console.WriteLine($"ID_LOGIN recebido: {paciente.ID_LOGIN}");
+            
             _appDbContext.Add(paciente);
             await _appDbContext.SaveChangesAsync();
 
