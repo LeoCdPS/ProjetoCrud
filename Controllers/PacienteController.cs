@@ -33,6 +33,24 @@ namespace ProjetoCrud.Controllers
             var pacientes = await _appDbContext.MED_PACIENTE.ToListAsync();
             return Ok(pacientes);
         }
+
+        // Endpoint GET api/Paciente/porLogin/{idLogin}: retorna o paciente vinculado a um login específico.
+        [HttpGet("porLogin/{idLogin}")]
+        public async Task<IActionResult> ObterPacientePorLogin(int idLogin)
+        {
+            var paciente = await _appDbContext.MED_PACIENTE
+                .Where(p => p.ID_LOGIN == idLogin)
+                .FirstOrDefaultAsync();
+
+            if (paciente == null)
+            {
+                return NotFound(new { erro = "Nenhum paciente vinculado a este login." });
+            }
+
+            return Ok(paciente);
+    }
+
+
         // Endpoint PUT api/Paciente/{id}: atualiza os dados de um paciente existente.
         [HttpPut("{id}")]
         public async Task<IActionResult> AtualizarPaciente(int id, MED_PACIENTE paciente)

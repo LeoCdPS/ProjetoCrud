@@ -52,7 +52,11 @@ namespace ProjetoCrud.Controllers
             _appDbContext.Add(usuarios);
             await _appDbContext.SaveChangesAsync();
 
-            return Ok(usuarios);
+            return Ok(new {
+                id = usuarios.id_USER,
+                email = usuarios.EMAIL,
+                cargo = usuarios.CARGO
+            });
         }
 
         [HttpPost("autenticar")]
