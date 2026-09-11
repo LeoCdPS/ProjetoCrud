@@ -25,6 +25,8 @@ namespace ProjetoCrud.Controllers
         [HttpPost]
         public async Task<IActionResult> CriarAgendamento(MED_AGENDAMENTO agendamento)
         {
+
+            agendamento.ID_MED_AGENDAMENTO_STATUS = 3; // Define o status como "Agendado" (3) ao criar um novo agendamento.
             _appDbContext.Add(agendamento);
             await _appDbContext.SaveChangesAsync();
 
