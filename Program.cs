@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjetoCrud.Data;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         ServerVersion.AutoDetect(conectionString)
     )
 );
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("api", limiter =>
+    {
+        limiter.PermitLimit = 10;
+        limiter.Window = TimeSpan.FromMinutes(1);
+        limiter.QueueLimit = 0;
+    });
+
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
 
 builder.Services.AddCors(options =>
 {
@@ -44,6 +57,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("PermitirFront");
+
+app.UseRateLimiter();
 
 app.MapControllers();
 

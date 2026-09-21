@@ -44,10 +44,9 @@ namespace ProjetoCrud.Controllers
                 .FirstOrDefaultAsync();
 
             if (paciente == null)
-            {
                 return NotFound(new { erro = "Nenhum paciente vinculado a este login." });
-            }
 
+                
             return Ok(paciente);
     }
 
