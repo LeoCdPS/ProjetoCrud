@@ -11,9 +11,6 @@ builder.Services.AddControllers();
 
 var conectionString = builder.Configuration.GetConnectionString("AppDbConnectionString");
 
-var app = builder.Build();
-
-
 
 // Configuração do Entity Framework Core para usar o MySQL como banco de dados.
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -76,6 +73,8 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader();
     });
 });
+
+var app = builder.Build();
 
 
 if (!app.Environment.IsDevelopment())
